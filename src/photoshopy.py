@@ -28,6 +28,9 @@ class Photoshopy:
             raise Exception(FileNotFoundError)
 
         self.app.Application.ActiveDocument.Close(2)
+        self.psd_file = None
+
+        return True
 
     def update_layer_text(self, layer_name, text):
         if not self.psd_file:
