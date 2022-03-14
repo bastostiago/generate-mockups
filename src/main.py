@@ -13,6 +13,12 @@ def get_files_to_process():
 
 
 def run_mugs(app):
+    if not os.path.isdir(DIR_FILES_TO_PROCESS):
+        os.mkdir(DIR_FILES_TO_PROCESS)
+
+    if not os.path.isdir(DIR_PROCESSED):
+        os.mkdir(DIR_PROCESSED)
+
     files_to_process = get_files_to_process()
     if files_to_process:
         for file_to_process in files_to_process:
