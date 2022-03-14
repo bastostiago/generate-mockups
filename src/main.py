@@ -16,17 +16,49 @@ def run_mugs(app):
     files_to_process = get_files_to_process()
     if files_to_process:
         for file_to_process in files_to_process:
+            file_name = os.path.splitext(file_to_process)[0]
             file_to_process = os.path.join(DIR_FILES_TO_PROCESS, file_to_process)
-            processed_name = os.path.splitext(file_to_process)[0]
 
+            dir_to_save = os.path.join(DIR_PROCESSED, file_name)
+            if not os.path.isdir(dir_to_save):
+                os.mkdir(dir_to_save)
+
+            # 2 Mugs and Art
             psd_file = os.path.join(DIR_PSD_MUGS, 'mugs_and_art.psd')
             opened = app.openPSD(psd_file)
             if opened:
-                img_name = f'{processed_name}_1.jpg'
+                img_name = f'{file_name}_1.jpg'
                 app.update_layer_image('art_image', file_to_process)
                 app.update_layer_image('mug1_image', file_to_process)
                 app.update_layer_image('mug2_image', file_to_process)
-                app.exportJPEG(img_name, DIR_PROCESSED)
+                app.exportJPEG(img_name, dir_to_save)
+                app.closePSD()
+
+            # Mug Side 1
+            psd_file = os.path.join(DIR_PSD_MUGS, 'mug1.psd')
+            opened = app.openPSD(psd_file)
+            if opened:
+                img_name = f'{file_name}_2.jpg'
+                app.update_layer_image('mug1_image', file_to_process)
+                app.exportJPEG(img_name, dir_to_save)
+                app.closePSD()
+
+            # Mug Side 2
+            psd_file = os.path.join(DIR_PSD_MUGS, 'mug2.psd')
+            opened = app.openPSD(psd_file)
+            if opened:
+                img_name = f'{file_name}_3.jpg'
+                app.update_layer_image('mug1_image', file_to_process)
+                app.exportJPEG(img_name, dir_to_save)
+                app.closePSD()
+
+            # Mug Center
+            psd_file = os.path.join(DIR_PSD_MUGS, 'mug_center.psd')
+            opened = app.openPSD(psd_file)
+            if opened:
+                img_name = f'{file_name}_4.jpg'
+                app.update_layer_image('mug1_image', file_to_process)
+                app.exportJPEG(img_name, dir_to_save)
                 app.closePSD()
 
 

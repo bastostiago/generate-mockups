@@ -65,7 +65,7 @@ class Photoshopy:
 
         return True
 
-    def exportJPEG(self, filename, folder='', quality=12):
+    def exportJPEG(self, filename, folder='', quality=80):
         if not self.psd_file:
             raise Exception(FileNotFoundError)
         filename = sanitize_filename(filename)
