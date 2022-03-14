@@ -67,6 +67,18 @@ def run_mugs(app):
                 app.exportJPEG(img_name, dir_to_save)
                 app.closePSD()
 
+            # 3 Mugs
+            psd_file = os.path.join(DIR_PSD_MUGS, '3mugs.psd')
+            opened = app.openPSD(psd_file)
+            if opened:
+                img_name = f'{file_name}_0.jpg'
+                app.update_layer_image('art_image', file_to_process)
+                app.update_layer_image('mug1_image', file_to_process)
+                app.update_layer_image('mug2_image', file_to_process)
+                app.update_layer_image('mug3_image', file_to_process)
+                app.exportJPEG(img_name, dir_to_save)
+                app.closePSD()
+
 
 if __name__ == '__main__':
     option = 99999
