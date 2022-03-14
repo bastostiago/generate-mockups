@@ -72,12 +72,13 @@ def run_mugs(app):
             opened = app.openPSD(psd_file)
             if opened:
                 img_name = f'{file_name}_0.jpg'
-                app.update_layer_image('art_image', file_to_process)
                 app.update_layer_image('mug1_image', file_to_process)
                 app.update_layer_image('mug2_image', file_to_process)
                 app.update_layer_image('mug3_image', file_to_process)
                 app.exportJPEG(img_name, dir_to_save)
                 app.closePSD()
+
+            os.remove(file_to_process)
 
 
 if __name__ == '__main__':
