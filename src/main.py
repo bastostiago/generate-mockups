@@ -1,18 +1,21 @@
 import os
 from photoshopy import Photoshopy
+from configparser import ConfigParser
 
 
 clear_console = lambda: os.system('cls' if os.name in ('nt', 'dos') else 'clear')
 DIR_FILES_TO_PROCESS = os.path.abspath("./../resources/origin_process")
 DIR_PROCESSED = os.path.abspath("./../resources/processed")
 DIR_PSD_MUGS = os.path.abspath("./../resources/psd/mugs")
+CONFIG = ConfigParser()
+CONFIG.read(os.path.abspath("./../config.ini"))
 
 
 def get_files_to_process():
     return os.listdir(DIR_FILES_TO_PROCESS)
 
 
-def run_mugs(app):
+def run_mugs(app, kind_of_m):
     if not os.path.isdir(DIR_FILES_TO_PROCESS):
         os.mkdir(DIR_FILES_TO_PROCESS)
 
@@ -30,55 +33,61 @@ def run_mugs(app):
                 os.mkdir(dir_to_save)
 
             # 2 Mugs and Art
-            psd_file = os.path.join(DIR_PSD_MUGS, 'mugs_and_art.psd')
-            opened = app.openPSD(psd_file)
-            if opened:
-                img_name = f'{file_name}_1.jpg'
-                app.update_layer_image('art_image', file_to_process)
-                app.update_layer_image('mug1_image', file_to_process)
-                app.update_layer_image('mug2_image', file_to_process)
-                app.exportJPEG(img_name, dir_to_save)
-                app.closePSD()
+            if kind_of_m in (1, 2):
+                psd_file = os.path.join(DIR_PSD_MUGS, 'mugs_and_art.psd')
+                opened = app.openPSD(psd_file)
+                if opened:
+                    img_name = f'{file_name}_1.jpg'
+                    app.update_layer_image('art_image', file_to_process)
+                    app.update_layer_image('mug1_image', file_to_process)
+                    app.update_layer_image('mug2_image', file_to_process)
+                    app.exportJPEG(img_name, dir_to_save)
+                    app.closePSD()
 
             # Mug Side 1
-            psd_file = os.path.join(DIR_PSD_MUGS, 'mug1.psd')
-            opened = app.openPSD(psd_file)
-            if opened:
-                img_name = f'{file_name}_2.jpg'
-                app.update_layer_image('mug1_image', file_to_process)
-                app.exportJPEG(img_name, dir_to_save)
-                app.closePSD()
+            if kind_of_m in (1, 4):
+                psd_file = os.path.join(DIR_PSD_MUGS, 'mug1.psd')
+                opened = app.openPSD(psd_file)
+                if opened:
+                    img_name = f'{file_name}_2.jpg'
+                    app.update_layer_image('mug1_image', file_to_process)
+                    app.exportJPEG(img_name, dir_to_save)
+                    app.closePSD()
 
             # Mug Side 2
-            psd_file = os.path.join(DIR_PSD_MUGS, 'mug2.psd')
-            opened = app.openPSD(psd_file)
-            if opened:
-                img_name = f'{file_name}_3.jpg'
-                app.update_layer_image('mug1_image', file_to_process)
-                app.exportJPEG(img_name, dir_to_save)
-                app.closePSD()
+            if kind_of_m in (1, 4):
+                psd_file = os.path.join(DIR_PSD_MUGS, 'mug2.psd')
+                opened = app.openPSD(psd_file)
+                if opened:
+                    img_name = f'{file_name}_3.jpg'
+                    app.update_layer_image('mug1_image', file_to_process)
+                    app.exportJPEG(img_name, dir_to_save)
+                    app.closePSD()
 
             # Mug Center
-            psd_file = os.path.join(DIR_PSD_MUGS, 'mug_center.psd')
-            opened = app.openPSD(psd_file)
-            if opened:
-                img_name = f'{file_name}_4.jpg'
-                app.update_layer_image('mug1_image', file_to_process)
-                app.exportJPEG(img_name, dir_to_save)
-                app.closePSD()
+            if kind_of_m in (1, 4):
+                psd_file = os.path.join(DIR_PSD_MUGS, 'mug_center.psd')
+                opened = app.openPSD(psd_file)
+                if opened:
+                    img_name = f'{file_name}_4.jpg'
+                    app.update_layer_image('mug1_image', file_to_process)
+                    app.exportJPEG(img_name, dir_to_save)
+                    app.closePSD()
 
             # 3 Mugs
-            psd_file = os.path.join(DIR_PSD_MUGS, '3mugs.psd')
-            opened = app.openPSD(psd_file)
-            if opened:
-                img_name = f'{file_name}_0.jpg'
-                app.update_layer_image('mug1_image', file_to_process)
-                app.update_layer_image('mug2_image', file_to_process)
-                app.update_layer_image('mug3_image', file_to_process)
-                app.exportJPEG(img_name, dir_to_save)
-                app.closePSD()
+            if kind_of_m in (1, 3):
+                psd_file = os.path.join(DIR_PSD_MUGS, '3mugs.psd')
+                opened = app.openPSD(psd_file)
+                if opened:
+                    img_name = f'{file_name}_0.jpg'
+                    app.update_layer_image('mug1_image', file_to_process)
+                    app.update_layer_image('mug2_image', file_to_process)
+                    app.update_layer_image('mug3_image', file_to_process)
+                    app.exportJPEG(img_name, dir_to_save)
+                    app.closePSD()
 
-            os.remove(file_to_process)
+            if CONFIG['DEFAULT']['DeleteOriginFiles'] == 'yes':
+                os.remove(file_to_process)
 
 
 if __name__ == '__main__':
@@ -88,16 +97,26 @@ if __name__ == '__main__':
     while option > 0:
         try:
             clear_console()
-            menu = '\n-------------------------\n' \
-                   '0 - QUIT \n1 - Generate Mugs \n' \
+            menu = '-------------------------\n' \
+                   '0 - QUIT \n1 - Generate Mugs\n' \
                    '-------------------------\n' \
                    'Your option (0): '
             option = int(input(menu) or 0)
 
             if option == 1:
-                app_obj = Photoshopy()
-                run_mugs(app_obj)
+                clear_console()
+                menu = '-------------------------\n' \
+                       'What kind of mugs do you need? \n' \
+                       '1- ALL\n' \
+                       '2- Art and Two Mugs\n' \
+                       '3- Tree Mugs Together\n' \
+                       '4- Tree Mugs Apart' \
+                       '-------------------------\n' \
+                       'Your option (1): '
+                kind_of_mugs = int(input(menu) or 1)
 
+                app_obj = Photoshopy()
+                run_mugs(app_obj, kind_of_mugs)
                 app_obj.closePhotoshop()
 
         except Exception as e:
