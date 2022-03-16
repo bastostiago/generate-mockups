@@ -72,9 +72,9 @@ class Photoshopy:
         self.psd_file.ActiveLayer = layer
 
         fill_color = win32com.client.Dispatch("Photoshop.SolidColor")
-        fill_color.rgb.red = 0
-        fill_color.rgb.green = 255
-        fill_color.rgb.blue = 0
+        fill_color.rgb.red = color[0]
+        fill_color.rgb.green = color[1]
+        fill_color.rgb.blue = color[2]
         sel = self.app.Application.ActiveDocument.Selection
         sel.Fill(fill_color, 2, 100, False)
 

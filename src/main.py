@@ -1,7 +1,7 @@
 import os
 from photoshopy import Photoshopy
 from configparser import ConfigParser
-
+from definitions import COLOR_OF_MUGS
 
 clear_console = lambda: os.system('cls' if os.name in ('nt', 'dos') else 'clear')
 DIR_FILES_TO_PROCESS = os.path.abspath("./../resources/origin_process")
@@ -15,7 +15,7 @@ def get_files_to_process():
     return os.listdir(DIR_FILES_TO_PROCESS)
 
 
-def run_mugs(app, kind_of_m):
+def run_mugs(app, kind_of_m, color_of_m):
     if not os.path.isdir(DIR_FILES_TO_PROCESS):
         os.mkdir(DIR_FILES_TO_PROCESS)
 
@@ -41,7 +41,9 @@ def run_mugs(app, kind_of_m):
                     app.update_layer_image('art_image', file_to_process)
                     app.update_layer_image('mug1_image', file_to_process)
                     app.update_layer_image('mug2_image', file_to_process)
-                    app.exportJPEG(img_name, dir_to_save)
+                    for color in color_of_m:
+                        app.update_layer_color('mug2_color_inside', COLOR_OF_MUGS[color_of_mugs].get('rgb'))
+                        app.exportJPEG(img_name, dir_to_save)
                     app.closePSD()
 
             # Mug Side 1
@@ -104,19 +106,33 @@ if __name__ == '__main__':
             option = int(input(menu) or 0)
 
             if option == 1:
+
+                # build kind of mugs menu
                 clear_console()
                 menu = '-------------------------\n' \
-                       'What kind of mugs do you need? \n' \
-                       '1- ALL\n' \
-                       '2- Art and Two Mugs\n' \
-                       '3- Tree Mugs Together\n' \
-                       '4- Tree Mugs Apart' \
+                       'What KIND OF MUGS do you need? \n' \
+                       '1 - ALL\n' \
+                       '2 - Art and Two Mugs\n' \
+                       '3 - Tree Mugs Together\n' \
+                       '4 - Tree Mugs Apart\n' \
                        '-------------------------\n' \
                        'Your option (1): '
                 kind_of_mugs = int(input(menu) or 1)
 
+                # build colors of mugs menu
+                clear_console()
+                menu = '-------------------------\n' \
+                       'What COLORS OF MUGS do you need? \n'
+                for key, value in COLOR_OF_MUGS:
+                    menu += f"{key} - {value.get('color')}\n"
+                menu += '-------------------------\n' \
+                        'Your options (1): '
+                color_of_mugs = input(menu) or '1'
+                color_of_mugs = color_of_mugs.split(',')
+                color_of_mugs = [x.strip() for x in color_of_mugs]
+
                 app_obj = Photoshopy()
-                run_mugs(app_obj, kind_of_mugs)
+                run_mugs(app_obj, kind_of_mugs, color_of_mugs)
                 app_obj.closePhotoshop()
 
         except Exception as e:
