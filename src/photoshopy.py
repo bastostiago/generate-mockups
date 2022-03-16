@@ -9,7 +9,7 @@ class Photoshopy:
 
     def __init__(self):
         self.app = win32com.client.Dispatch("Photoshop.Application")
-        self.app.Visible = False
+        # self.app.Visible = False
 
     def closePhotoshop(self):
         self.app.Quit()
@@ -62,6 +62,21 @@ class Photoshopy:
 
         # close psb file
         self.app.Application.ActiveDocument.Close(1)
+
+        return True
+
+    def update_layer_color(self, layer_name, color):
+        if not self.psd_file:
+            raise Exception(FileNotFoundError)
+        layer = self.psd_file.ArtLayers[layer_name]
+        self.psd_file.ActiveLayer = layer
+
+        fill_color = win32com.client.Dispatch("Photoshop.SolidColor")
+        fill_color.rgb.red = 0
+        fill_color.rgb.green = 255
+        fill_color.rgb.blue = 0
+        sel = self.app.Application.ActiveDocument.Selection
+        sel.Fill(fill_color, 2, 100, False)
 
         return True
 
