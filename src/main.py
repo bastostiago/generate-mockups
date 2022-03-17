@@ -144,6 +144,7 @@ if __name__ == '__main__':
 
     while option > 0:
         try:
+            print('')
             clear_console()
             menu = '-------------------------\n' \
                    '0 - QUIT \n1 - Generate Mugs\n' \
