@@ -22,6 +22,17 @@ def run_mugs(app, kind_of_m, color_of_m):
     if not os.path.isdir(DIR_PROCESSED):
         os.mkdir(DIR_PROCESSED)
 
+    #progress bar
+    files_qty = 0
+    if kind_of_m == 1:
+        files_qty += 5
+    elif kind_of_m == 4:
+        files_qty += 3
+    else:
+        files_qty += 1
+    files_qty = files_qty * len(color_of_m)
+    exported_files = 0
+
     files_to_process = get_files_to_process()
     if files_to_process:
         for file_to_process in files_to_process:
@@ -37,13 +48,20 @@ def run_mugs(app, kind_of_m, color_of_m):
                 psd_file = os.path.join(DIR_PSD_MUGS, 'mugs_and_art.psd')
                 opened = app.openPSD(psd_file)
                 if opened:
-                    img_name = f'{file_name}_1.jpg'
                     app.update_layer_image('art_image', file_to_process)
                     app.update_layer_image('mug1_image', file_to_process)
                     app.update_layer_image('mug2_image', file_to_process)
                     for color in color_of_m:
-                        app.update_layer_color('mug2_color_inside', COLOR_OF_MUGS[color_of_mugs].get('rgb'))
+                        img_name = f"{file_name}_1_{COLOR_OF_MUGS[color].get('color')}.jpg"
+                        app.update_layer_color('mug2_color_inside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('mug2_color_triminside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('mug2_color_handle', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('mug1_color_inside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('mug1_color_triminside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('mug1_color_handle', COLOR_OF_MUGS[color].get('rgb'))
                         app.exportJPEG(img_name, dir_to_save)
+                        exported_files += 1
+                        print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...", end='')
                     app.closePSD()
 
             # Mug Side 1
@@ -51,9 +69,15 @@ def run_mugs(app, kind_of_m, color_of_m):
                 psd_file = os.path.join(DIR_PSD_MUGS, 'mug1.psd')
                 opened = app.openPSD(psd_file)
                 if opened:
-                    img_name = f'{file_name}_2.jpg'
                     app.update_layer_image('mug1_image', file_to_process)
-                    app.exportJPEG(img_name, dir_to_save)
+                    for color in color_of_m:
+                        img_name = f"{file_name}_2_{COLOR_OF_MUGS[color].get('color')}.jpg"
+                        app.update_layer_color('mug1_color_inside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('mug1_color_triminside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('mug1_color_handle', COLOR_OF_MUGS[color].get('rgb'))
+                        app.exportJPEG(img_name, dir_to_save)
+                        exported_files += 1
+                        print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...", end='')
                     app.closePSD()
 
             # Mug Side 2
@@ -61,9 +85,15 @@ def run_mugs(app, kind_of_m, color_of_m):
                 psd_file = os.path.join(DIR_PSD_MUGS, 'mug2.psd')
                 opened = app.openPSD(psd_file)
                 if opened:
-                    img_name = f'{file_name}_3.jpg'
                     app.update_layer_image('mug1_image', file_to_process)
-                    app.exportJPEG(img_name, dir_to_save)
+                    for color in color_of_m:
+                        img_name = f"{file_name}_3_{COLOR_OF_MUGS[color].get('color')}.jpg"
+                        app.update_layer_color('mug1_color_inside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('mug1_color_triminside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('mug1_color_handle', COLOR_OF_MUGS[color].get('rgb'))
+                        app.exportJPEG(img_name, dir_to_save)
+                        exported_files += 1
+                        print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...", end='')
                     app.closePSD()
 
             # Mug Center
@@ -71,9 +101,14 @@ def run_mugs(app, kind_of_m, color_of_m):
                 psd_file = os.path.join(DIR_PSD_MUGS, 'mug_center.psd')
                 opened = app.openPSD(psd_file)
                 if opened:
-                    img_name = f'{file_name}_4.jpg'
                     app.update_layer_image('mug1_image', file_to_process)
-                    app.exportJPEG(img_name, dir_to_save)
+                    for color in color_of_m:
+                        img_name = f"{file_name}_4_{COLOR_OF_MUGS[color].get('color')}.jpg"
+                        app.update_layer_color('mug1_color_inside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('mug1_color_triminside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.exportJPEG(img_name, dir_to_save)
+                        exported_files += 1
+                        print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...", end='')
                     app.closePSD()
 
             # 3 Mugs
@@ -81,11 +116,22 @@ def run_mugs(app, kind_of_m, color_of_m):
                 psd_file = os.path.join(DIR_PSD_MUGS, '3mugs.psd')
                 opened = app.openPSD(psd_file)
                 if opened:
-                    img_name = f'{file_name}_0.jpg'
                     app.update_layer_image('mug1_image', file_to_process)
                     app.update_layer_image('mug2_image', file_to_process)
                     app.update_layer_image('mug3_image', file_to_process)
-                    app.exportJPEG(img_name, dir_to_save)
+                    for color in color_of_m:
+                        img_name = f"{file_name}_0_{COLOR_OF_MUGS[color].get('color')}.jpg"
+                        app.update_layer_color('mug2_color_inside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('mug2_color_triminside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('mug2_color_handle', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('mug1_color_inside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('mug1_color_triminside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('mug1_color_handle', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('mug3_color_inside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('mug3_color_triminside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.exportJPEG(img_name, dir_to_save)
+                        exported_files += 1
+                        print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...", end='')
                     app.closePSD()
 
             if CONFIG['DEFAULT']['DeleteOriginFiles'] == 'yes':
@@ -123,7 +169,7 @@ if __name__ == '__main__':
                 clear_console()
                 menu = '-------------------------\n' \
                        'What COLORS OF MUGS do you need? \n'
-                for key, value in COLOR_OF_MUGS:
+                for key, value in COLOR_OF_MUGS.items():
                     menu += f"{key} - {value.get('color')}\n"
                 menu += '-------------------------\n' \
                         'Your options (1): '

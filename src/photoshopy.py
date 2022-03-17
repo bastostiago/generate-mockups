@@ -9,7 +9,7 @@ class Photoshopy:
 
     def __init__(self):
         self.app = win32com.client.Dispatch("Photoshop.Application")
-        # self.app.Visible = False
+        self.app.Visible = False
 
     def closePhotoshop(self):
         self.app.Quit()
