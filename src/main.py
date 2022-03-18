@@ -22,7 +22,9 @@ def run_mugs(app, kind_of_m, color_of_m):
     if not os.path.isdir(DIR_PROCESSED):
         os.mkdir(DIR_PROCESSED)
 
-    #progress bar
+    files_to_process = get_files_to_process()
+
+    # progress bar
     files_qty = 0
     if kind_of_m == 1:
         files_qty += 5
@@ -30,10 +32,9 @@ def run_mugs(app, kind_of_m, color_of_m):
         files_qty += 3
     else:
         files_qty += 1
-    files_qty = files_qty * len(color_of_m)
+    files_qty = files_qty * len(color_of_m) * len(files_to_process)
     exported_files = 0
 
-    files_to_process = get_files_to_process()
     if files_to_process:
         for file_to_process in files_to_process:
             file_name = os.path.splitext(file_to_process)[0]
