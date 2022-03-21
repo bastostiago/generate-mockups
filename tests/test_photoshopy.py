@@ -77,5 +77,26 @@ class TestPhotoshopy(unittest.TestCase):
 
         self.assertTrue(updated)
 
+    def test_update_layer_visibility_hide(self):
+        updated = False
+
+        opened = self.app.openPSD(self.psd_origin)
+        if opened:
+            updated = self.app.update_layer_visibility('foto', False)
+            self.app.closePSD()
+
+        self.assertTrue(updated)
+
+    def test_update_layer_visibility_show(self):
+        updated = False
+
+        opened = self.app.openPSD(self.psd_origin)
+        if opened:
+            updated = self.app.update_layer_visibility('foto', True)
+            self.app.closePSD()
+
+        self.assertTrue(updated)
+
+
 if __name__ == '__main__':
     unittest.main()

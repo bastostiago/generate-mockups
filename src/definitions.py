@@ -48,3 +48,16 @@ COLOR_OF_MUGS = {
         "rgb": (32, 52, 50)
     }
 }
+
+COLOR_OF_BOTTLES = {
+    "1": {
+        "1": {
+            "color": "White",
+            "value": "white"
+        },
+        "2": {
+            "color": "Silver",
+            "value": "silver"
+        }
+    }
+}

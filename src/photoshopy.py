@@ -9,7 +9,7 @@ class Photoshopy:
 
     def __init__(self):
         self.app = win32com.client.Dispatch("Photoshop.Application")
-        self.app.Visible = False
+        self.app.Visible = True
 
     def closePhotoshop(self):
         self.app.Quit()
@@ -77,6 +77,20 @@ class Photoshopy:
         fill_color.rgb.blue = color[2]
         sel = self.app.Application.ActiveDocument.Selection
         sel.Fill(fill_color, 2, 100, False)
+
+        return True
+
+    def update_layer_visibility(self, layer_name, show):
+        if not self.psd_file:
+            raise Exception(FileNotFoundError)
+        layer = self.psd_file.ArtLayers[layer_name]
+        self.psd_file.ActiveLayer = layer
+        if show:
+            sel = self.app.Application.ActiveDocument.ActiveLayer
+            sel.Visible = True
+        else:
+            sel = self.app.Application.ActiveDocument.ActiveLayer
+            sel.Visible = False
 
         return True
 
