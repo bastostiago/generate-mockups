@@ -7,9 +7,12 @@ class Photoshopy:
     app = None
     psd_file = None
 
-    def __init__(self):
+    def __init__(self, app_visible='yes'):
         self.app = win32com.client.Dispatch("Photoshop.Application")
-        self.app.Visible = True
+        if app_visible == 'yes':
+            self.app.Visible = True
+        else:
+            self.app.Visible = False
 
     def closePhotoshop(self):
         self.app.Quit()

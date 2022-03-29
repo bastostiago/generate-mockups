@@ -226,6 +226,7 @@ def run_bottles(app, kind_of_b, color_of_b):
 if __name__ == '__main__':
     option = 99999
     app_obj = None
+    app_visible = CONFIG['DEFAULT']['AppVisible']
 
     while option > 0:
         try:
@@ -265,7 +266,7 @@ if __name__ == '__main__':
                 color_of_mugs = color_of_mugs.split(',')
                 color_of_mugs = [x.strip() for x in color_of_mugs]
 
-                app_obj = Photoshopy()
+                app_obj = Photoshopy(app_visible)
                 run_mugs(app_obj, kind_of_mugs, color_of_mugs)
                 app_obj.closePhotoshop()
 
@@ -292,7 +293,7 @@ if __name__ == '__main__':
                 color_of_bottles = color_of_bottles.split(',')
                 color_of_bottles = [x.strip() for x in color_of_bottles]
 
-                app_obj = Photoshopy()
+                app_obj = Photoshopy(app_visible)
                 run_bottles(app_obj, kind_of_bottles, color_of_bottles)
                 app_obj.closePhotoshop()
 
