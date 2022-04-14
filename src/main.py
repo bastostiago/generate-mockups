@@ -227,6 +227,7 @@ if __name__ == '__main__':
     option = 99999
     app_obj = None
     app_visible = CONFIG['DEFAULT']['AppVisible']
+    close_photoshop = CONFIG['DEFAULT']['ClosePhotoshop']
 
     while option > 0:
         try:
@@ -268,7 +269,8 @@ if __name__ == '__main__':
 
                 app_obj = Photoshopy(app_visible)
                 run_mugs(app_obj, kind_of_mugs, color_of_mugs)
-                app_obj.closePhotoshop()
+                if close_photoshop == 'yes':
+                    app_obj.closePhotoshop()
 
             elif option == 2:
 
@@ -295,14 +297,16 @@ if __name__ == '__main__':
 
                 app_obj = Photoshopy(app_visible)
                 run_bottles(app_obj, kind_of_bottles, color_of_bottles)
-                app_obj.closePhotoshop()
+                if close_photoshop == 'yes':
+                    app_obj.closePhotoshop()
 
         except Exception as e:
             print(e)
             if app_obj:
                 if app_obj.psd_file:
                     app_obj.closePSD()
-                app_obj.closePhotoshop()
+                if close_photoshop == 'yes':
+                    app_obj.closePhotoshop()
 
 
 
