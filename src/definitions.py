@@ -49,6 +49,25 @@ COLOR_OF_MUGS = {
     }
 }
 
+COLOR_OF_MUGS_HEART = {
+    "1": {
+        "color": "White",
+        "rgb": (255, 255, 255)
+    },
+    "2": {
+        "color": "Pink",
+        "rgb": (232, 175, 185)
+    },
+    "3": {
+        "color": "Black",
+        "rgb": (14, 14, 14)
+    },
+    "4": {
+        "color": "Red",
+        "rgb": (203, 1, 1)
+    }
+}
+
 COLOR_OF_BOTTLES = {
     "1": {
         "1": {

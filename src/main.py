@@ -1,7 +1,7 @@
 import os
 from photoshopy import Photoshopy
 from configparser import ConfigParser
-from definitions import COLOR_OF_MUGS, COLOR_OF_BOTTLES
+from definitions import COLOR_OF_MUGS, COLOR_OF_BOTTLES, COLOR_OF_MUGS_HEART
 
 clear_console = lambda: os.system('cls' if os.name in ('nt', 'dos') else 'clear')
 DIR_FILES_TO_PROCESS = os.path.abspath("./../resources/origin_process")
@@ -223,6 +223,103 @@ def run_bottles(app, kind_of_b, color_of_b):
                 os.remove(file_to_process)
 
 
+def run_mugs_heart(app, kind_of_m, color_of_m):
+    if not os.path.isdir(DIR_FILES_TO_PROCESS):
+        os.mkdir(DIR_FILES_TO_PROCESS)
+
+    if not os.path.isdir(DIR_PROCESSED):
+        os.mkdir(DIR_PROCESSED)
+
+    files_to_process = get_files_to_process()
+
+    # progress bar
+    files_qty = 0
+    if kind_of_m == 1:
+        files_qty += 4
+    elif kind_of_m == 3:
+        files_qty += 3
+    else:
+        files_qty += 1
+    files_qty = files_qty * len(color_of_m) * len(files_to_process)
+    exported_files = 0
+
+    if files_to_process:
+        for file_to_process in files_to_process:
+            file_name = os.path.splitext(file_to_process)[0]
+            file_to_process = os.path.join(DIR_FILES_TO_PROCESS, file_to_process)
+
+            dir_to_save = os.path.join(DIR_PROCESSED, file_name)
+            if not os.path.isdir(dir_to_save):
+                os.mkdir(dir_to_save)
+
+            # 2 Mugs and Art
+            if kind_of_m in (1, 2):
+                psd_file = os.path.join(DIR_PSD_MUGS, 'mugs_and_art_heart.psd')
+                opened = app.openPSD(psd_file)
+                if opened:
+                    app.update_layer_image('art_image', file_to_process)
+                    app.update_layer_image('mug1_image', file_to_process)
+                    app.update_layer_image('mug2_image', file_to_process)
+                    for color in color_of_m:
+                        img_name = f"{file_name}_heart_1_{COLOR_OF_MUGS[color].get('color')}.jpg"
+                        app.update_layer_color('mug2_color_inside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('mug2_color_handle', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('mug1_color_inside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('mug1_color_handle', COLOR_OF_MUGS[color].get('rgb'))
+                        app.exportJPEG(img_name, dir_to_save)
+                        exported_files += 1
+                        print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...", end='')
+                    app.closePSD()
+
+            # Mug Side 1
+            if kind_of_m in (1, 3):
+                psd_file = os.path.join(DIR_PSD_MUGS, 'mug1_heart.psd')
+                opened = app.openPSD(psd_file)
+                if opened:
+                    app.update_layer_image('mug1_image', file_to_process)
+                    for color in color_of_m:
+                        img_name = f"{file_name}_heart_2_{COLOR_OF_MUGS[color].get('color')}.jpg"
+                        app.update_layer_color('mug1_color_inside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('mug1_color_handle', COLOR_OF_MUGS[color].get('rgb'))
+                        app.exportJPEG(img_name, dir_to_save)
+                        exported_files += 1
+                        print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...", end='')
+                    app.closePSD()
+
+            # Mug Side 2
+            if kind_of_m in (1, 3):
+                psd_file = os.path.join(DIR_PSD_MUGS, 'mug2_heart.psd')
+                opened = app.openPSD(psd_file)
+                if opened:
+                    app.update_layer_image('mug1_image', file_to_process)
+                    for color in color_of_m:
+                        img_name = f"{file_name}_heart_3_{COLOR_OF_MUGS[color].get('color')}.jpg"
+                        app.update_layer_color('mug1_color_inside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('mug1_color_handle', COLOR_OF_MUGS[color].get('rgb'))
+                        app.exportJPEG(img_name, dir_to_save)
+                        exported_files += 1
+                        print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...", end='')
+                    app.closePSD()
+
+            # Mug Center
+            if kind_of_m in (1, 3):
+                psd_file = os.path.join(DIR_PSD_MUGS, 'mug_center_heart.psd')
+                opened = app.openPSD(psd_file)
+                if opened:
+                    app.update_layer_image('mug1_image', file_to_process)
+                    for color in color_of_m:
+                        img_name = f"{file_name}_heart_4_{COLOR_OF_MUGS[color].get('color')}.jpg"
+                        app.update_layer_color('mug1_color_inside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('mug1_color_triminside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.exportJPEG(img_name, dir_to_save)
+                        exported_files += 1
+                        print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...", end='')
+                    app.closePSD()
+
+            if CONFIG['DEFAULT']['DeleteOriginFiles'] == 'yes':
+                os.remove(file_to_process)
+
+
 if __name__ == '__main__':
     option = 99999
     app_obj = None
@@ -237,29 +334,39 @@ if __name__ == '__main__':
                    '0 - QUIT \n' \
                    '1 - Generate Mugs\n' \
                    '2 - Generate Bottles\n' \
+                   '3 - Generate Heart Mugs\n' \
                    '-------------------------\n' \
                    'Your option (0): '
             option = int(input(menu) or 0)
 
-            if option == 1:
+            if option in (1, 3):
 
                 # build kind of mugs menu
                 clear_console()
-                menu = '-------------------------\n' \
-                       'What KIND OF MUGS do you need? \n' \
-                       '1 - ALL\n' \
-                       '2 - Art and Two Mugs\n' \
-                       '3 - Tree Mugs Together\n' \
-                       '4 - Tree Mugs Apart\n' \
-                       '-------------------------\n' \
-                       'Your option (1): '
+                if option == 1:
+                    menu = '-------------------------\n' \
+                           'What KIND OF MUGS do you need? \n' \
+                           '1 - ALL\n' \
+                           '2 - Art and Two Mugs\n' \
+                           '3 - Tree Mugs Together\n' \
+                           '4 - Tree Mugs Apart\n' \
+                           '-------------------------\n' \
+                           'Your option (1): '
+                if option == 3:
+                    menu = '-------------------------\n' \
+                           'What KIND OF MUGS do you need? \n' \
+                           '1 - ALL\n' \
+                           '2 - Art and Two Mugs\n' \
+                           '3 - Tree Mugs Apart\n' \
+                           '-------------------------\n' \
+                           'Your option (1): '
                 kind_of_mugs = int(input(menu) or 1)
 
                 # build colors of mugs menu
                 clear_console()
                 menu = '-------------------------\n' \
                        'What COLORS OF MUGS do you need? \n'
-                for key, value in COLOR_OF_MUGS.items():
+                for key, value in (COLOR_OF_MUGS if option == 1 else COLOR_OF_MUGS_HEART).items():
                     menu += f"{key} - {value.get('color')}\n"
                 menu += '-------------------------\n' \
                         'Your options (1): '
@@ -268,7 +375,10 @@ if __name__ == '__main__':
                 color_of_mugs = [x.strip() for x in color_of_mugs]
 
                 app_obj = Photoshopy(app_visible)
-                run_mugs(app_obj, kind_of_mugs, color_of_mugs)
+                if option == 1:
+                    run_mugs(app_obj, kind_of_mugs, color_of_mugs)
+                if option == 3:
+                    run_mugs_heart(app_obj, kind_of_mugs, color_of_mugs)
                 if close_photoshop == 'yes':
                     app_obj.closePhotoshop()
 
