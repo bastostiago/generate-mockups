@@ -80,3 +80,14 @@ COLOR_OF_BOTTLES = {
         }
     }
 }
+
+COLOR_OF_NECESSAIRE_ZIPPER = {
+    "1": {
+        "color": "White",
+        "rgb": (255, 255, 255)
+    },
+    "2": {
+        "color": "Light Pink",
+        "rgb": (208, 109, 126)
+    }
+}

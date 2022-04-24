@@ -1,13 +1,14 @@
 import os
 from photoshopy import Photoshopy
 from configparser import ConfigParser
-from definitions import COLOR_OF_MUGS, COLOR_OF_BOTTLES, COLOR_OF_MUGS_HEART
+from definitions import COLOR_OF_MUGS, COLOR_OF_BOTTLES, COLOR_OF_MUGS_HEART, COLOR_OF_NECESSAIRE_ZIPPER
 
 clear_console = lambda: os.system('cls' if os.name in ('nt', 'dos') else 'clear')
 DIR_FILES_TO_PROCESS = os.path.abspath("./../resources/origin_process")
 DIR_PROCESSED = os.path.abspath("./../resources/processed")
 DIR_PSD_MUGS = os.path.abspath("./../resources/psd/mugs")
 DIR_PSD_BOTTLES = os.path.abspath("./../resources/psd/bottles/")
+DIR_PSD_NECESSAIRES = os.path.abspath("./../resources/psd/necessaires/")
 CONFIG = ConfigParser()
 CONFIG.read(os.path.abspath("./../config.ini"))
 
@@ -16,7 +17,7 @@ def get_files_to_process():
     return os.listdir(DIR_FILES_TO_PROCESS)
 
 
-def run_mugs(app, kind_of_m, color_of_m):
+def run_mugs(app, kind_of_m, color_of_m, del_files='Y'):
     if not os.path.isdir(DIR_FILES_TO_PROCESS):
         os.mkdir(DIR_FILES_TO_PROCESS)
 
@@ -136,11 +137,11 @@ def run_mugs(app, kind_of_m, color_of_m):
                         print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...", end='')
                     app.closePSD()
 
-            if CONFIG['DEFAULT']['DeleteOriginFiles'] == 'yes':
+            if del_files == 'Y':
                 os.remove(file_to_process)
 
 
-def run_bottles(app, kind_of_b, color_of_b):
+def run_bottles(app, kind_of_b, color_of_b, del_files='Y'):
     if not os.path.isdir(DIR_FILES_TO_PROCESS):
         os.mkdir(DIR_FILES_TO_PROCESS)
 
@@ -219,11 +220,11 @@ def run_bottles(app, kind_of_b, color_of_b):
                               end='')
                     app.closePSD()
 
-            if CONFIG['DEFAULT']['DeleteOriginFiles'] == 'yes':
+            if del_files == 'Y':
                 os.remove(file_to_process)
 
 
-def run_mugs_heart(app, kind_of_m, color_of_m):
+def run_mugs_heart(app, kind_of_m, color_of_m, del_files='Y'):
     if not os.path.isdir(DIR_FILES_TO_PROCESS):
         os.mkdir(DIR_FILES_TO_PROCESS)
 
@@ -316,7 +317,49 @@ def run_mugs_heart(app, kind_of_m, color_of_m):
                         print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...", end='')
                     app.closePSD()
 
-            if CONFIG['DEFAULT']['DeleteOriginFiles'] == 'yes':
+            if del_files == 'Y':
+                os.remove(file_to_process)
+
+
+def run_necessaires(app, color_of_n, del_files='Y'):
+    if not os.path.isdir(DIR_FILES_TO_PROCESS):
+        os.mkdir(DIR_FILES_TO_PROCESS)
+
+    if not os.path.isdir(DIR_PROCESSED):
+        os.mkdir(DIR_PROCESSED)
+
+    files_to_process = get_files_to_process()
+
+    # progress bar
+    files_qty = 1
+    files_qty = files_qty * len(color_of_n) * len(files_to_process)
+    exported_files = 0
+
+    if files_to_process:
+        for file_to_process in files_to_process:
+            file_name = os.path.splitext(file_to_process)[0]
+            file_to_process = os.path.join(DIR_FILES_TO_PROCESS, file_to_process)
+
+            dir_to_save = os.path.join(DIR_PROCESSED, file_name)
+            if not os.path.isdir(dir_to_save):
+                os.mkdir(dir_to_save)
+
+            # 2 necessaires
+            psd_file = os.path.join(DIR_PSD_NECESSAIRES, '2necessaires.psd')
+            opened = app.openPSD(psd_file)
+            if opened:
+                app.update_layer_image('necessaire1_image', file_to_process)
+                app.update_layer_image('necessaire2_image', file_to_process)
+                for color in color_of_n:
+                    img_name = f"{file_name}_1_zipper_{COLOR_OF_NECESSAIRE_ZIPPER[color].get('color')}.jpg"
+                    app.update_layer_color('zipper1_color', COLOR_OF_NECESSAIRE_ZIPPER[color].get('rgb'))
+                    app.update_layer_color('zipper2_color', COLOR_OF_NECESSAIRE_ZIPPER[color].get('rgb'))
+                    app.exportJPEG(img_name, dir_to_save)
+                    exported_files += 1
+                    print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...", end='')
+                app.closePSD()
+
+            if del_files == 'Y':
                 os.remove(file_to_process)
 
 
@@ -325,16 +368,25 @@ if __name__ == '__main__':
     app_obj = None
     app_visible = CONFIG['DEFAULT']['AppVisible']
     close_photoshop = CONFIG['DEFAULT']['ClosePhotoshop']
+    if CONFIG['DEFAULT']['DeleteOriginFiles'] == 'no':
+        delete_origin_files = 'N'
+    else:
+        delete_origin_files = 'Y'
 
     while option > 0:
         try:
             print('')
             clear_console()
+
+            if CONFIG['DEFAULT']['DeleteOriginFiles'] == 'inquire':
+                delete_origin_files = (input('Would you like to DELETE the original files? Y or N: (Y)') or 'Y').upper()
+
             menu = '-------------------------\n' \
                    '0 - QUIT \n' \
                    '1 - Generate Mugs\n' \
                    '2 - Generate Bottles\n' \
                    '3 - Generate Heart Mugs\n' \
+                   '4 - Necessaires\n' \
                    '-------------------------\n' \
                    'Your option (0): '
             option = int(input(menu) or 0)
@@ -376,9 +428,9 @@ if __name__ == '__main__':
 
                 app_obj = Photoshopy(app_visible)
                 if option == 1:
-                    run_mugs(app_obj, kind_of_mugs, color_of_mugs)
+                    run_mugs(app_obj, kind_of_mugs, color_of_mugs, delete_origin_files)
                 if option == 3:
-                    run_mugs_heart(app_obj, kind_of_mugs, color_of_mugs)
+                    run_mugs_heart(app_obj, kind_of_mugs, color_of_mugs, delete_origin_files)
                 if close_photoshop == 'yes':
                     app_obj.closePhotoshop()
 
@@ -406,7 +458,26 @@ if __name__ == '__main__':
                 color_of_bottles = [x.strip() for x in color_of_bottles]
 
                 app_obj = Photoshopy(app_visible)
-                run_bottles(app_obj, kind_of_bottles, color_of_bottles)
+                run_bottles(app_obj, kind_of_bottles, color_of_bottles, delete_origin_files)
+                if close_photoshop == 'yes':
+                    app_obj.closePhotoshop()
+
+            elif option == 4:
+
+                # build colors of necessaires
+                clear_console()
+                menu = '-------------------------\n' \
+                       'What COLORS OF NECESSAIRE ZIPPERS do you need? \n'
+                for key, value in COLOR_OF_NECESSAIRE_ZIPPER.items():
+                    menu += f"{key} - {value.get('color')}\n"
+                menu += '-------------------------\n' \
+                        'Your options (1): '
+                color_of_necessaire_zipper = input(menu) or '1'
+                color_of_necessaire_zipper = color_of_necessaire_zipper.split(',')
+                color_of_necessaire_zipper = [x.strip() for x in color_of_necessaire_zipper]
+
+                app_obj = Photoshopy(app_visible)
+                run_necessaires(app_obj, color_of_necessaire_zipper, delete_origin_files)
                 if close_photoshop == 'yes':
                     app_obj.closePhotoshop()
 
