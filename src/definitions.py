@@ -46,6 +46,10 @@ COLOR_OF_MUGS = {
     "12": {
         "color": "Dark Green",
         "rgb": (32, 52, 50)
+    },
+    "13": {
+        "color": "Brown",
+        "rgb": (29, 3, 3)
     }
 }
 
