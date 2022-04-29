@@ -93,5 +93,9 @@ COLOR_OF_NECESSAIRE_ZIPPER = {
     "2": {
         "color": "Light Pink",
         "rgb": (208, 109, 126)
+    },
+    "3": {
+        "color": "Black",
+        "rgb": (37, 37, 37)
     }
 }
