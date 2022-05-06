@@ -262,11 +262,11 @@ def run_mugs_heart(app, kind_of_m, color_of_m, del_files='Y'):
                     app.update_layer_image('mug1_image', file_to_process)
                     app.update_layer_image('mug2_image', file_to_process)
                     for color in color_of_m:
-                        img_name = f"{file_name}_heart_1_{COLOR_OF_MUGS[color].get('color')}.jpg"
-                        app.update_layer_color('mug2_color_inside', COLOR_OF_MUGS[color].get('rgb'))
-                        app.update_layer_color('mug2_color_handle', COLOR_OF_MUGS[color].get('rgb'))
-                        app.update_layer_color('mug1_color_inside', COLOR_OF_MUGS[color].get('rgb'))
-                        app.update_layer_color('mug1_color_handle', COLOR_OF_MUGS[color].get('rgb'))
+                        img_name = f"{file_name}_heart_1_{COLOR_OF_MUGS_HEART[color].get('color')}.jpg"
+                        app.update_layer_color('mug2_color_inside', COLOR_OF_MUGS_HEART[color].get('rgb'))
+                        app.update_layer_color('mug2_color_handle', COLOR_OF_MUGS_HEART[color].get('rgb'))
+                        app.update_layer_color('mug1_color_inside', COLOR_OF_MUGS_HEART[color].get('rgb'))
+                        app.update_layer_color('mug1_color_handle', COLOR_OF_MUGS_HEART[color].get('rgb'))
                         app.exportJPEG(img_name, dir_to_save)
                         exported_files += 1
                         print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...", end='')
@@ -279,9 +279,9 @@ def run_mugs_heart(app, kind_of_m, color_of_m, del_files='Y'):
                 if opened:
                     app.update_layer_image('mug1_image', file_to_process)
                     for color in color_of_m:
-                        img_name = f"{file_name}_heart_2_{COLOR_OF_MUGS[color].get('color')}.jpg"
-                        app.update_layer_color('mug1_color_inside', COLOR_OF_MUGS[color].get('rgb'))
-                        app.update_layer_color('mug1_color_handle', COLOR_OF_MUGS[color].get('rgb'))
+                        img_name = f"{file_name}_heart_2_{COLOR_OF_MUGS_HEART[color].get('color')}.jpg"
+                        app.update_layer_color('mug1_color_inside', COLOR_OF_MUGS_HEART[color].get('rgb'))
+                        app.update_layer_color('mug1_color_handle', COLOR_OF_MUGS_HEART[color].get('rgb'))
                         app.exportJPEG(img_name, dir_to_save)
                         exported_files += 1
                         print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...", end='')
@@ -294,9 +294,9 @@ def run_mugs_heart(app, kind_of_m, color_of_m, del_files='Y'):
                 if opened:
                     app.update_layer_image('mug1_image', file_to_process)
                     for color in color_of_m:
-                        img_name = f"{file_name}_heart_3_{COLOR_OF_MUGS[color].get('color')}.jpg"
-                        app.update_layer_color('mug1_color_inside', COLOR_OF_MUGS[color].get('rgb'))
-                        app.update_layer_color('mug1_color_handle', COLOR_OF_MUGS[color].get('rgb'))
+                        img_name = f"{file_name}_heart_3_{COLOR_OF_MUGS_HEART[color].get('color')}.jpg"
+                        app.update_layer_color('mug1_color_inside', COLOR_OF_MUGS_HEART[color].get('rgb'))
+                        app.update_layer_color('mug1_color_handle', COLOR_OF_MUGS_HEART[color].get('rgb'))
                         app.exportJPEG(img_name, dir_to_save)
                         exported_files += 1
                         print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...", end='')
@@ -309,9 +309,9 @@ def run_mugs_heart(app, kind_of_m, color_of_m, del_files='Y'):
                 if opened:
                     app.update_layer_image('mug1_image', file_to_process)
                     for color in color_of_m:
-                        img_name = f"{file_name}_heart_4_{COLOR_OF_MUGS[color].get('color')}.jpg"
-                        app.update_layer_color('mug1_color_inside', COLOR_OF_MUGS[color].get('rgb'))
-                        app.update_layer_color('mug1_color_triminside', COLOR_OF_MUGS[color].get('rgb'))
+                        img_name = f"{file_name}_heart_4_{COLOR_OF_MUGS_HEART[color].get('color')}.jpg"
+                        app.update_layer_color('mug1_color_inside', COLOR_OF_MUGS_HEART[color].get('rgb'))
+                        app.update_layer_color('mug1_color_triminside', COLOR_OF_MUGS_HEART[color].get('rgb'))
                         app.exportJPEG(img_name, dir_to_save)
                         exported_files += 1
                         print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...", end='')
@@ -372,8 +372,10 @@ if __name__ == '__main__':
         delete_origin_files = 'N'
     else:
         delete_origin_files = 'Y'
+    last_option = None
+    run_last_option = False
 
-    while option > 0:
+    while option != 99:
         try:
             print('')
             clear_console()
@@ -381,50 +383,71 @@ if __name__ == '__main__':
             if CONFIG['DEFAULT']['DeleteOriginFiles'] == 'inquire':
                 delete_origin_files = (input('Would you like to DELETE the original files? Y or N: (Y)') or 'Y').upper()
 
-            menu = '-------------------------\n' \
-                   '0 - QUIT \n' \
-                   '1 - Generate Mugs\n' \
-                   '2 - Generate Bottles\n' \
-                   '3 - Generate Heart Mugs\n' \
-                   '4 - Necessaires\n' \
-                   '-------------------------\n' \
-                   'Your option (0): '
+            menu = '-------------------------\n'
+            if last_option:
+                menu += '0 - PREVIOUS SETUP \n'
+            else:
+                last_option = [0, 0, 0]
+
+            menu += '1 - Generate Mugs\n' \
+                    '2 - Generate Bottles\n' \
+                    '3 - Generate Heart Mugs\n' \
+                    '4 - Necessaires\n' \
+                    '-------------------------\n' \
+                    'Your option (0): '
+
             option = int(input(menu) or 0)
+
+            if option == 0:
+                option = last_option[0]
+                run_last_option = True
+            else:
+                last_option[0] = option
+                run_last_option = False
 
             if option in (1, 3):
 
                 # build kind of mugs menu
                 clear_console()
-                if option == 1:
-                    menu = '-------------------------\n' \
-                           'What KIND OF MUGS do you need? \n' \
-                           '1 - ALL\n' \
-                           '2 - Art and Two Mugs\n' \
-                           '3 - Tree Mugs Together\n' \
-                           '4 - Tree Mugs Apart\n' \
-                           '-------------------------\n' \
-                           'Your option (1): '
-                if option == 3:
-                    menu = '-------------------------\n' \
-                           'What KIND OF MUGS do you need? \n' \
-                           '1 - ALL\n' \
-                           '2 - Art and Two Mugs\n' \
-                           '3 - Tree Mugs Apart\n' \
-                           '-------------------------\n' \
-                           'Your option (1): '
-                kind_of_mugs = int(input(menu) or 1)
+                if run_last_option:
+                    kind_of_mugs = last_option[1]
+                else:
+                    if option == 1:
+                        menu = '-------------------------\n' \
+                               'What KIND OF MUGS do you need? \n' \
+                               '1 - ALL\n' \
+                               '2 - Art and Two Mugs\n' \
+                               '3 - Tree Mugs Together\n' \
+                               '4 - Tree Mugs Apart\n' \
+                               '-------------------------\n' \
+                               'Your option (1): '
+                    if option == 3:
+                        menu = '-------------------------\n' \
+                               'What KIND OF MUGS do you need? \n' \
+                               '1 - ALL\n' \
+                               '2 - Art and Two Mugs\n' \
+                               '3 - Tree Mugs Apart\n' \
+                               '-------------------------\n' \
+                               'Your option (1): '
+                    kind_of_mugs = int(input(menu) or 1)
+                last_option[1] = kind_of_mugs
 
                 # build colors of mugs menu
                 clear_console()
-                menu = '-------------------------\n' \
-                       'What COLORS OF MUGS do you need? \n'
-                for key, value in (COLOR_OF_MUGS if option == 1 else COLOR_OF_MUGS_HEART).items():
-                    menu += f"{key} - {value.get('color')}\n"
-                menu += '-------------------------\n' \
-                        'Your options (1): '
-                color_of_mugs = input(menu) or '1'
-                color_of_mugs = color_of_mugs.split(',')
-                color_of_mugs = [x.strip() for x in color_of_mugs]
+                if run_last_option:
+                    color_of_mugs = last_option[2]
+                else:
+                    menu = '-------------------------\n' \
+                           'What COLORS OF MUGS do you need? \n'
+                    for key, value in (COLOR_OF_MUGS if option == 1 else COLOR_OF_MUGS_HEART).items():
+                        menu += f"{key} - {value.get('color')}\n"
+                    menu += '-------------------------\n' \
+                            'Your options (1): '
+                    color_of_mugs = input(menu) or '1'
+                    color_of_mugs = color_of_mugs.split(',')
+                    color_of_mugs = [x.strip() for x in color_of_mugs]
+
+                last_option[2] = color_of_mugs
 
                 app_obj = Photoshopy(app_visible)
                 if option == 1:
@@ -438,24 +461,34 @@ if __name__ == '__main__':
 
                 # build kind of bottles
                 clear_console()
-                menu = '-------------------------\n' \
-                       'What KIND OF BOTTLES do you need? \n' \
-                       '1 - Aluminum 750 ML\n' \
-                       '-------------------------\n' \
-                       'Your option (1): '
-                kind_of_bottles = int(input(menu) or 1)
+                if run_last_option:
+                    kind_of_bottles = last_option[1]
+                else:
+                    menu = '-------------------------\n' \
+                           'What KIND OF BOTTLES do you need? \n' \
+                           '1 - Aluminum 750 ML\n' \
+                           '-------------------------\n' \
+                           'Your option (1): '
+                    kind_of_bottles = int(input(menu) or 1)
+
+                last_option[1] = kind_of_bottles
 
                 # build colors of bottles menu
                 clear_console()
-                menu = '-------------------------\n' \
-                       'What COLORS OF BOTTLES do you need? \n'
-                for key, value in COLOR_OF_BOTTLES[str(kind_of_bottles)].items():
-                    menu += f"{key} - {value.get('color')}\n"
-                menu += '-------------------------\n' \
-                        'Your options (1): '
-                color_of_bottles = input(menu) or '1'
-                color_of_bottles = color_of_bottles.split(',')
-                color_of_bottles = [x.strip() for x in color_of_bottles]
+                if run_last_option:
+                    color_of_bottles = last_option[2]
+                else:
+                    menu = '-------------------------\n' \
+                           'What COLORS OF BOTTLES do you need? \n'
+                    for key, value in COLOR_OF_BOTTLES[str(kind_of_bottles)].items():
+                        menu += f"{key} - {value.get('color')}\n"
+                    menu += '-------------------------\n' \
+                            'Your options (1): '
+                    color_of_bottles = input(menu) or '1'
+                    color_of_bottles = color_of_bottles.split(',')
+                    color_of_bottles = [x.strip() for x in color_of_bottles]
+
+                last_option[2] = color_of_bottles
 
                 app_obj = Photoshopy(app_visible)
                 run_bottles(app_obj, kind_of_bottles, color_of_bottles, delete_origin_files)
@@ -466,15 +499,20 @@ if __name__ == '__main__':
 
                 # build colors of necessaires
                 clear_console()
-                menu = '-------------------------\n' \
-                       'What COLORS OF NECESSAIRE ZIPPERS do you need? \n'
-                for key, value in COLOR_OF_NECESSAIRE_ZIPPER.items():
-                    menu += f"{key} - {value.get('color')}\n"
-                menu += '-------------------------\n' \
-                        'Your options (1): '
-                color_of_necessaire_zipper = input(menu) or '1'
-                color_of_necessaire_zipper = color_of_necessaire_zipper.split(',')
-                color_of_necessaire_zipper = [x.strip() for x in color_of_necessaire_zipper]
+                if run_last_option:
+                    color_of_necessaire_zipper = last_option[2]
+                else:
+                    menu = '-------------------------\n' \
+                           'What COLORS OF NECESSAIRE ZIPPERS do you need? \n'
+                    for key, value in COLOR_OF_NECESSAIRE_ZIPPER.items():
+                        menu += f"{key} - {value.get('color')}\n"
+                    menu += '-------------------------\n' \
+                            'Your options (1): '
+                    color_of_necessaire_zipper = input(menu) or '1'
+                    color_of_necessaire_zipper = color_of_necessaire_zipper.split(',')
+                    color_of_necessaire_zipper = [x.strip() for x in color_of_necessaire_zipper]
+
+                last_option[2] = color_of_necessaire_zipper
 
                 app_obj = Photoshopy(app_visible)
                 run_necessaires(app_obj, color_of_necessaire_zipper, delete_origin_files)
