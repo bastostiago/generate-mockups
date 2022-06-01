@@ -29,7 +29,7 @@ def run_mugs(app, kind_of_m, color_of_m, del_files='Y'):
     # progress bar
     files_qty = 0
     if kind_of_m == 1:
-        files_qty += 5
+        files_qty += 6
     elif kind_of_m == 4:
         files_qty += 3
     else:
@@ -135,6 +135,23 @@ def run_mugs(app, kind_of_m, color_of_m, del_files='Y'):
                         app.exportJPEG(img_name, dir_to_save)
                         exported_files += 1
                         print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...", end='')
+                    app.closePSD()
+
+            # Mug and Coffee Percolator
+            if kind_of_m in (1, 5):
+                psd_file = os.path.join(DIR_PSD_MUGS, 'mug_coffee.psd')
+                opened = app.openPSD(psd_file)
+                if opened:
+                    app.update_layer_image('mug1_image', file_to_process)
+                    for color in color_of_m:
+                        img_name = f"{file_name}_5_{COLOR_OF_MUGS[color].get('color')}.jpg"
+                        app.update_layer_color('mug1_color_inside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('mug1_color_triminside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('mug1_color_handle', COLOR_OF_MUGS[color].get('rgb'))
+                        app.exportJPEG(img_name, dir_to_save)
+                        exported_files += 1
+                        print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...",
+                              end='')
                     app.closePSD()
 
             if del_files == 'Y':
@@ -419,6 +436,7 @@ if __name__ == '__main__':
                                '2 - Art and Two Mugs\n' \
                                '3 - Tree Mugs Together\n' \
                                '4 - Tree Mugs Apart\n' \
+                               '5 - Mug and Coffee Percolator\n' \
                                '-------------------------\n' \
                                'Your option (1): '
                     if option == 3:
