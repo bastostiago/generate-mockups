@@ -112,3 +112,18 @@ class Photoshopy:
 
         return os.path.isfile(full_path)
 
+    def exportPNG(self, filename, folder='', quality=80):
+        if not self.psd_file:
+            raise Exception(FileNotFoundError)
+        filename = sanitize_filename(filename)
+        full_path = os.path.join(folder, filename)
+
+        options = win32com.client.Dispatch("Photoshop.ExportOptionsSaveForWeb")
+        # png
+        options.Format = 13
+        options.PNG8 = False  # Sets it to PNG-24 bit
+
+        self.psd_file.Export(ExportIn=full_path, ExportAs=2, Options=options)
+
+        return os.path.isfile(full_path)
+

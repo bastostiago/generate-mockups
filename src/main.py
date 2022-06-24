@@ -30,10 +30,16 @@ def run_mugs(app, kind_of_m, color_of_m, del_files='Y'):
     files_qty = 0
     if kind_of_m == 1:
         files_qty += 6
+        if CONFIG['DEFAULT']['GenerateNoBackgroundImages'] == 'yes':
+            files_qty += 4
     elif kind_of_m == 4:
         files_qty += 3
+        if CONFIG['DEFAULT']['GenerateNoBackgroundImages'] == 'yes':
+            files_qty += 3
     else:
         files_qty += 1
+        if CONFIG['DEFAULT']['GenerateNoBackgroundImages'] == 'yes' and kind_of_m == 5:
+            files_qty += 1
     files_qty = files_qty * len(color_of_m) * len(files_to_process)
     exported_files = 0
 
@@ -79,6 +85,12 @@ def run_mugs(app, kind_of_m, color_of_m, del_files='Y'):
                         app.update_layer_color('mug1_color_triminside', COLOR_OF_MUGS[color].get('rgb'))
                         app.update_layer_color('mug1_color_handle', COLOR_OF_MUGS[color].get('rgb'))
                         app.exportJPEG(img_name, dir_to_save)
+                        if CONFIG['DEFAULT']['GenerateNoBackgroundImages'] == 'yes':
+                            img_name = f"{file_name}_2_{COLOR_OF_MUGS[color].get('color')}.png"
+                            app.update_layer_visibility(f'bg1', False)
+                            app.update_layer_visibility(f'bg2', False)
+                            app.exportPNG(img_name, dir_to_save)
+                            exported_files += 1
                         exported_files += 1
                         print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...", end='')
                     app.closePSD()
@@ -96,6 +108,12 @@ def run_mugs(app, kind_of_m, color_of_m, del_files='Y'):
                         app.update_layer_color('mug1_color_handle', COLOR_OF_MUGS[color].get('rgb'))
                         app.exportJPEG(img_name, dir_to_save)
                         exported_files += 1
+                        if CONFIG['DEFAULT']['GenerateNoBackgroundImages'] == 'yes':
+                            img_name = f"{file_name}_3_{COLOR_OF_MUGS[color].get('color')}.png"
+                            app.update_layer_visibility(f'bg1', False)
+                            app.update_layer_visibility(f'bg2', False)
+                            app.exportPNG(img_name, dir_to_save)
+                            exported_files += 1
                         print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...", end='')
                     app.closePSD()
 
@@ -111,6 +129,12 @@ def run_mugs(app, kind_of_m, color_of_m, del_files='Y'):
                         app.update_layer_color('mug1_color_triminside', COLOR_OF_MUGS[color].get('rgb'))
                         app.exportJPEG(img_name, dir_to_save)
                         exported_files += 1
+                        if CONFIG['DEFAULT']['GenerateNoBackgroundImages'] == 'yes':
+                            img_name = f"{file_name}_4_{COLOR_OF_MUGS[color].get('color')}.png"
+                            app.update_layer_visibility(f'bg1', False)
+                            app.update_layer_visibility(f'bg2', False)
+                            app.exportPNG(img_name, dir_to_save)
+                            exported_files += 1
                         print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...", end='')
                     app.closePSD()
 
@@ -150,6 +174,10 @@ def run_mugs(app, kind_of_m, color_of_m, del_files='Y'):
                         app.update_layer_color('mug1_color_handle', COLOR_OF_MUGS[color].get('rgb'))
                         app.exportJPEG(img_name, dir_to_save)
                         exported_files += 1
+                        if CONFIG['DEFAULT']['GenerateNoBackgroundImages'] == 'yes':
+                            img_name = f"{file_name}_5_{COLOR_OF_MUGS[color].get('color')}.png"
+                            app.exportPNG(img_name, dir_to_save)
+                            exported_files += 1
                         print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...",
                               end='')
                     app.closePSD()
@@ -254,8 +282,12 @@ def run_mugs_heart(app, kind_of_m, color_of_m, del_files='Y'):
     files_qty = 0
     if kind_of_m == 1:
         files_qty += 4
+        if CONFIG['DEFAULT']['GenerateNoBackgroundImages'] == 'yes':
+            files_qty += 3
     elif kind_of_m == 3:
         files_qty += 3
+        if CONFIG['DEFAULT']['GenerateNoBackgroundImages'] == 'yes':
+            files_qty += 3
     else:
         files_qty += 1
     files_qty = files_qty * len(color_of_m) * len(files_to_process)
@@ -301,6 +333,12 @@ def run_mugs_heart(app, kind_of_m, color_of_m, del_files='Y'):
                         app.update_layer_color('mug1_color_handle', COLOR_OF_MUGS_HEART[color].get('rgb'))
                         app.exportJPEG(img_name, dir_to_save)
                         exported_files += 1
+                        if CONFIG['DEFAULT']['GenerateNoBackgroundImages'] == 'yes':
+                            img_name = f"{file_name}_heart_2_{COLOR_OF_MUGS_HEART[color].get('color')}.png"
+                            app.update_layer_visibility(f'bg1', False)
+                            app.update_layer_visibility(f'bg2', False)
+                            app.exportPNG(img_name, dir_to_save)
+                            exported_files += 1
                         print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...", end='')
                     app.closePSD()
 
@@ -316,6 +354,12 @@ def run_mugs_heart(app, kind_of_m, color_of_m, del_files='Y'):
                         app.update_layer_color('mug1_color_handle', COLOR_OF_MUGS_HEART[color].get('rgb'))
                         app.exportJPEG(img_name, dir_to_save)
                         exported_files += 1
+                        if CONFIG['DEFAULT']['GenerateNoBackgroundImages'] == 'yes':
+                            img_name = f"{file_name}_heart_3_{COLOR_OF_MUGS_HEART[color].get('color')}.png"
+                            app.update_layer_visibility(f'bg1', False)
+                            app.update_layer_visibility(f'bg2', False)
+                            app.exportPNG(img_name, dir_to_save)
+                            exported_files += 1
                         print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...", end='')
                     app.closePSD()
 
@@ -331,6 +375,12 @@ def run_mugs_heart(app, kind_of_m, color_of_m, del_files='Y'):
                         app.update_layer_color('mug1_color_triminside', COLOR_OF_MUGS_HEART[color].get('rgb'))
                         app.exportJPEG(img_name, dir_to_save)
                         exported_files += 1
+                        if CONFIG['DEFAULT']['GenerateNoBackgroundImages'] == 'yes':
+                            img_name = f"{file_name}_heart_4_{COLOR_OF_MUGS_HEART[color].get('color')}.png"
+                            app.update_layer_visibility(f'bg1', False)
+                            app.update_layer_visibility(f'bg2', False)
+                            app.exportPNG(img_name, dir_to_save)
+                            exported_files += 1
                         print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...", end='')
                     app.closePSD()
 
