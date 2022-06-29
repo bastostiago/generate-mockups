@@ -398,7 +398,7 @@ def run_necessaires(app, color_of_n, del_files='Y'):
     files_to_process = get_files_to_process()
 
     # progress bar
-    files_qty = 1
+    files_qty = 3
     files_qty = files_qty * len(color_of_n) * len(files_to_process)
     exported_files = 0
 
@@ -420,6 +420,32 @@ def run_necessaires(app, color_of_n, del_files='Y'):
                 for color in color_of_n:
                     img_name = f"{file_name}_1_zipper_{COLOR_OF_NECESSAIRE_ZIPPER[color].get('color')}.jpg"
                     app.update_layer_color('zipper1_color', COLOR_OF_NECESSAIRE_ZIPPER[color].get('rgb'))
+                    app.update_layer_color('zipper2_color', COLOR_OF_NECESSAIRE_ZIPPER[color].get('rgb'))
+                    app.exportJPEG(img_name, dir_to_save)
+                    exported_files += 1
+                    print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...", end='')
+                app.closePSD()
+
+            # necessaires side 1
+            psd_file = os.path.join(DIR_PSD_NECESSAIRES, 'necessaires1.psd')
+            opened = app.openPSD(psd_file)
+            if opened:
+                app.update_layer_image('necessaire1_image', file_to_process)
+                for color in color_of_n:
+                    img_name = f"{file_name}_2_zipper_{COLOR_OF_NECESSAIRE_ZIPPER[color].get('color')}.jpg"
+                    app.update_layer_color('zipper1_color', COLOR_OF_NECESSAIRE_ZIPPER[color].get('rgb'))
+                    app.exportJPEG(img_name, dir_to_save)
+                    exported_files += 1
+                    print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...", end='')
+                app.closePSD()
+
+            # necessaires side 2
+            psd_file = os.path.join(DIR_PSD_NECESSAIRES, 'necessaires2.psd')
+            opened = app.openPSD(psd_file)
+            if opened:
+                app.update_layer_image('necessaire2_image', file_to_process)
+                for color in color_of_n:
+                    img_name = f"{file_name}_3_zipper_{COLOR_OF_NECESSAIRE_ZIPPER[color].get('color')}.jpg"
                     app.update_layer_color('zipper2_color', COLOR_OF_NECESSAIRE_ZIPPER[color].get('rgb'))
                     app.exportJPEG(img_name, dir_to_save)
                     exported_files += 1
