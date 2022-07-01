@@ -2,6 +2,7 @@ import os
 from photoshopy import Photoshopy
 from configparser import ConfigParser
 from definitions import COLOR_OF_MUGS, COLOR_OF_BOTTLES, COLOR_OF_MUGS_HEART, COLOR_OF_NECESSAIRE_ZIPPER
+from cups import run_cups
 
 clear_console = lambda: os.system('cls' if os.name in ('nt', 'dos') else 'clear')
 DIR_FILES_TO_PROCESS = os.path.abspath("./../resources/origin_process")
@@ -9,6 +10,7 @@ DIR_PROCESSED = os.path.abspath("./../resources/processed")
 DIR_PSD_MUGS = os.path.abspath("./../resources/psd/mugs")
 DIR_PSD_BOTTLES = os.path.abspath("./../resources/psd/bottles/")
 DIR_PSD_NECESSAIRES = os.path.abspath("./../resources/psd/necessaires/")
+DIR_PSD_CUPS = os.path.abspath("./../resources/psd/cups/")
 CONFIG = ConfigParser()
 CONFIG.read(os.path.abspath("./../config.ini"))
 
@@ -486,6 +488,7 @@ if __name__ == '__main__':
                     '2 - Generate Bottles\n' \
                     '3 - Generate Heart Mugs\n' \
                     '4 - Necessaires\n' \
+                    '5 - Cups\n' \
                     '-------------------------\n' \
                     'Your option (0): '
 
@@ -610,6 +613,27 @@ if __name__ == '__main__':
 
                 app_obj = Photoshopy(app_visible)
                 run_necessaires(app_obj, color_of_necessaire_zipper, delete_origin_files)
+                if close_photoshop == 'yes':
+                    app_obj.closePhotoshop()
+
+            elif option == 5:
+
+                # build kind of mugs menu
+                clear_console()
+                if run_last_option:
+                    kind_of_cups = last_option[1]
+                else:
+                    menu = '-------------------------\n' \
+                           'What KIND OF MUGS do you need? \n' \
+                           '1 - ALL\n' \
+                           '2 - Art and Two Mugs\n' \
+                           '-------------------------\n' \
+                           'Your option (1): '
+                    kind_of_cups = int(input(menu) or 1)
+                last_option[1] = kind_of_cups
+
+                app_obj = Photoshopy(app_visible)
+                run_cups(app_obj, kind_of_cups, delete_origin_files)
                 if close_photoshop == 'yes':
                     app_obj.closePhotoshop()
 
