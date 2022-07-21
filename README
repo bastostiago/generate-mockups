@@ -1,12 +1,7 @@
-Built in Python 3.9
+Generate Mockups of some kinds of customized products such as:
 
-1 - CREATE MUG MOCKUPS
-
-- Set your arts inside resources/origin_process folder.
-- They must be 200 x 91 mm.
-- Run process and get results inside processed folder.
-
-2 - GENERATE AN EXECUTABLE
-
-- Run pyinstaller --onefile src/main.py
+- Mugs
+- Bottles
+- Necessaires
+- Cups of Beer
 
