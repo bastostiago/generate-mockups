@@ -164,7 +164,7 @@ def run_mugs(app, kind_of_m, color_of_m, del_files='Y'):
                     app.closePSD()
 
             # Mug and Coffee Percolator
-            if kind_of_m in (1, 5):
+            if kind_of_m == 5:
                 psd_file = os.path.join(DIR_PSD_MUGS, 'mug_coffee.psd')
                 opened = app.openPSD(psd_file)
                 if opened:
