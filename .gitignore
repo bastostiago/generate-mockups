@@ -1,4 +1,6 @@
 /build/
 /dist/
 /.idea/
+/resources/processed/
+/src/__pycache__
 main.spec

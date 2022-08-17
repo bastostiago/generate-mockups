@@ -31,9 +31,9 @@ def run_mugs(app, kind_of_m, color_of_m, del_files='Y'):
     # progress bar
     files_qty = 0
     if kind_of_m == 1:
-        files_qty += 6
+        files_qty += 5
         if CONFIG['DEFAULT']['GenerateNoBackgroundImages'] == 'yes':
-            files_qty += 4
+            files_qty += 3
     elif kind_of_m == 4:
         files_qty += 3
         if CONFIG['DEFAULT']['GenerateNoBackgroundImages'] == 'yes':
