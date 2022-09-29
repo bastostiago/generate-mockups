@@ -82,6 +82,16 @@ COLOR_OF_BOTTLES = {
             "color": "Silver",
             "value": "silver"
         }
+    },
+    "2": {
+        "1": {
+            "color": "White",
+            "value": "white"
+        },
+        "2": {
+            "color": "Silver",
+            "value": "silver"
+        }
     }
 }
 

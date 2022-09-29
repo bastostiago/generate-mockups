@@ -199,7 +199,7 @@ def run_bottles(app, kind_of_b, color_of_b, del_files='Y'):
 
     # progress bar
     files_qty = 0
-    if kind_of_b == 1:
+    if kind_of_b in (1, 2):
         files_qty += 3
     else:
         files_qty += 1
@@ -253,6 +253,58 @@ def run_bottles(app, kind_of_b, color_of_b, del_files='Y'):
 
                 # bottle 2
                 psd_file = os.path.join(DIR_PSD_BOTTLES, 'aluminum_750_bottle2.psd')
+                opened = app.openPSD(psd_file)
+                if opened:
+                    app.update_layer_image('bottle1_image', file_to_process)
+                    for color in color_of_b:
+                        color_value = COLOR_OF_BOTTLES[str(kind_of_b)][color].get('value')
+                        img_name = f"{file_name}_3_{color_value}.jpg"
+                        app.update_layer_visibility(f'bottle1_color_{color_value}', True)
+                        app.exportJPEG(img_name, dir_to_save)
+                        app.update_layer_visibility(f'bottle1_color_{color_value}', False)
+                        exported_files += 1
+                        print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...",
+                              end='')
+                    app.closePSD()
+
+            # 600 Aluminum
+            if kind_of_b == 2:
+                # 2 bottles
+                psd_file = os.path.join(DIR_PSD_BOTTLES, 'aluminum_600_2bottles.psd')
+                opened = app.openPSD(psd_file)
+                if opened:
+                    app.update_layer_image('bottle1_image', file_to_process)
+                    app.update_layer_image('bottle2_image', file_to_process)
+                    for color in color_of_b:
+                        color_value = COLOR_OF_BOTTLES[str(kind_of_b)][color].get('value')
+                        img_name = f"{file_name}_1_{color_value}.jpg"
+                        app.update_layer_visibility(f'bottle1_color_{color_value}', True)
+                        app.update_layer_visibility(f'bottle2_color_{color_value}', True)
+                        app.exportJPEG(img_name, dir_to_save)
+                        app.update_layer_visibility(f'bottle1_color_{color_value}', False)
+                        app.update_layer_visibility(f'bottle2_color_{color_value}', False)
+                        exported_files += 1
+                        print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...", end='')
+                    app.closePSD()
+
+                # bottle 1
+                psd_file = os.path.join(DIR_PSD_BOTTLES, 'aluminum_600_bottle1.psd')
+                opened = app.openPSD(psd_file)
+                if opened:
+                    app.update_layer_image('bottle1_image', file_to_process)
+                    for color in color_of_b:
+                        color_value = COLOR_OF_BOTTLES[str(kind_of_b)][color].get('value')
+                        img_name = f"{file_name}_2_{color_value}.jpg"
+                        app.update_layer_visibility(f'bottle1_color_{color_value}', True)
+                        app.exportJPEG(img_name, dir_to_save)
+                        app.update_layer_visibility(f'bottle1_color_{color_value}', False)
+                        exported_files += 1
+                        print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...",
+                              end='')
+                    app.closePSD()
+
+                # bottle 2
+                psd_file = os.path.join(DIR_PSD_BOTTLES, 'aluminum_600_bottle2.psd')
                 opened = app.openPSD(psd_file)
                 if opened:
                     app.update_layer_image('bottle1_image', file_to_process)
@@ -564,6 +616,7 @@ if __name__ == '__main__':
                     menu = '-------------------------\n' \
                            'What KIND OF BOTTLES do you need? \n' \
                            '1 - Aluminum 750 ML\n' \
+                           '2 - Aluminum 600 ML\n' \
                            '-------------------------\n' \
                            'Your option (1): '
                     kind_of_bottles = int(input(menu) or 1)
