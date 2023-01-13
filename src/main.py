@@ -226,7 +226,7 @@ def run_bottles(app, kind_of_b, color_of_b, del_files='Y'):
                     app.update_layer_image('bottle2_image', file_to_process)
                     for color in color_of_b:
                         color_value = COLOR_OF_BOTTLES[str(kind_of_b)][color].get('value')
-                        img_name = f"{file_name}_1_{color_value}.jpg"
+                        img_name = f"{file_name}_750_1_{color_value}.jpg"
                         app.update_layer_visibility(f'bottle1_color_{color_value}', True)
                         app.update_layer_visibility(f'bottle2_color_{color_value}', True)
                         app.exportJPEG(img_name, dir_to_save)
@@ -243,7 +243,7 @@ def run_bottles(app, kind_of_b, color_of_b, del_files='Y'):
                     app.update_layer_image('bottle1_image', file_to_process)
                     for color in color_of_b:
                         color_value = COLOR_OF_BOTTLES[str(kind_of_b)][color].get('value')
-                        img_name = f"{file_name}_2_{color_value}.jpg"
+                        img_name = f"{file_name}_750_2_{color_value}.jpg"
                         app.update_layer_visibility(f'bottle1_color_{color_value}', True)
                         app.exportJPEG(img_name, dir_to_save)
                         app.update_layer_visibility(f'bottle1_color_{color_value}', False)
@@ -259,7 +259,7 @@ def run_bottles(app, kind_of_b, color_of_b, del_files='Y'):
                     app.update_layer_image('bottle1_image', file_to_process)
                     for color in color_of_b:
                         color_value = COLOR_OF_BOTTLES[str(kind_of_b)][color].get('value')
-                        img_name = f"{file_name}_3_{color_value}.jpg"
+                        img_name = f"{file_name}_750_3_{color_value}.jpg"
                         app.update_layer_visibility(f'bottle1_color_{color_value}', True)
                         app.exportJPEG(img_name, dir_to_save)
                         app.update_layer_visibility(f'bottle1_color_{color_value}', False)
@@ -278,7 +278,7 @@ def run_bottles(app, kind_of_b, color_of_b, del_files='Y'):
                     app.update_layer_image('bottle2_image', file_to_process)
                     for color in color_of_b:
                         color_value = COLOR_OF_BOTTLES[str(kind_of_b)][color].get('value')
-                        img_name = f"{file_name}_1_{color_value}.jpg"
+                        img_name = f"{file_name}_600_1_{color_value}.jpg"
                         app.update_layer_visibility(f'bottle1_color_{color_value}', True)
                         app.update_layer_visibility(f'bottle2_color_{color_value}', True)
                         app.exportJPEG(img_name, dir_to_save)
@@ -295,7 +295,7 @@ def run_bottles(app, kind_of_b, color_of_b, del_files='Y'):
                     app.update_layer_image('bottle1_image', file_to_process)
                     for color in color_of_b:
                         color_value = COLOR_OF_BOTTLES[str(kind_of_b)][color].get('value')
-                        img_name = f"{file_name}_2_{color_value}.jpg"
+                        img_name = f"{file_name}_600_2_{color_value}.jpg"
                         app.update_layer_visibility(f'bottle1_color_{color_value}', True)
                         app.exportJPEG(img_name, dir_to_save)
                         app.update_layer_visibility(f'bottle1_color_{color_value}', False)
@@ -311,7 +311,7 @@ def run_bottles(app, kind_of_b, color_of_b, del_files='Y'):
                     app.update_layer_image('bottle1_image', file_to_process)
                     for color in color_of_b:
                         color_value = COLOR_OF_BOTTLES[str(kind_of_b)][color].get('value')
-                        img_name = f"{file_name}_3_{color_value}.jpg"
+                        img_name = f"{file_name}_600_3_{color_value}.jpg"
                         app.update_layer_visibility(f'bottle1_color_{color_value}', True)
                         app.exportJPEG(img_name, dir_to_save)
                         app.update_layer_visibility(f'bottle1_color_{color_value}', False)
