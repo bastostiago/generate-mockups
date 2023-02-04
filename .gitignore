@@ -4,3 +4,4 @@
 /resources/processed/
 /src/__pycache__
 main.spec
+*.log

@@ -32,7 +32,7 @@ def run_mugs(app, kind_of_m, color_of_m, del_files='Y'):
     # progress bar
     files_qty = 0
     if kind_of_m == 1:
-        files_qty += 5
+        files_qty += 6
         if CONFIG['DEFAULT']['GenerateNoBackgroundImages'] == 'yes':
             files_qty += 3
     elif kind_of_m == 4:
@@ -65,6 +65,26 @@ def run_mugs(app, kind_of_m, color_of_m, del_files='Y'):
                     app.update_layer_image('mug2_image', file_to_process)
                     for color in color_of_m:
                         img_name = f"{file_name}_1_{COLOR_OF_MUGS[color].get('color')}.jpg"
+                        app.update_layer_color('mug2_color_inside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('mug2_color_triminside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('mug2_color_handle', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('mug1_color_inside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('mug1_color_triminside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('mug1_color_handle', COLOR_OF_MUGS[color].get('rgb'))
+                        app.exportJPEG(img_name, dir_to_save)
+                        exported_files += 1
+                        print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...", end='')
+                    app.closePSD()
+
+            # 2 Mugs
+            if kind_of_m in (1, 2):
+                psd_file = os.path.join(DIR_PSD_MUGS, '2mugs.psd')
+                opened = app.openPSD(psd_file)
+                if opened:
+                    app.update_layer_image('mug1_image', file_to_process)
+                    app.update_layer_image('mug2_image', file_to_process)
+                    for color in color_of_m:
+                        img_name = f"{file_name}_6_{COLOR_OF_MUGS[color].get('color')}.jpg"
                         app.update_layer_color('mug2_color_inside', COLOR_OF_MUGS[color].get('rgb'))
                         app.update_layer_color('mug2_color_triminside', COLOR_OF_MUGS[color].get('rgb'))
                         app.update_layer_color('mug2_color_handle', COLOR_OF_MUGS[color].get('rgb'))
