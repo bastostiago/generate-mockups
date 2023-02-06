@@ -205,6 +205,35 @@ def run_mugs(app, kind_of_m, color_of_m, del_files='Y'):
                               end='')
                     app.closePSD()
 
+            # 2 Mugs kit
+            if kind_of_m == 6:
+                psd_file = os.path.join(DIR_PSD_MUGS, '2mugs_kit.psd')
+                opened = app.openPSD(psd_file)
+                if opened:
+                    app.update_layer_image('up_mug1_image', file_to_process)
+                    app.update_layer_image('up_mug2_image', file_to_process)
+                    app.update_layer_image('down_mug1_image', file_to_process)
+                    app.update_layer_image('down_mug2_image', file_to_process)
+                    for color in color_of_m:
+                        img_name = f"{file_name}_kit_{COLOR_OF_MUGS[color].get('color')}.jpg"
+                        app.update_layer_color('up_mug2_color_inside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('up_mug2_color_triminside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('up_mug2_color_handle', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('up_mug1_color_inside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('up_mug1_color_triminside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('up_mug1_color_handle', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('down_mug2_color_inside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('down_mug2_color_triminside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('down_mug2_color_handle', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('down_mug1_color_inside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('down_mug1_color_triminside', COLOR_OF_MUGS[color].get('rgb'))
+                        app.update_layer_color('down_mug1_color_handle', COLOR_OF_MUGS[color].get('rgb'))
+                        
+                        app.exportJPEG(img_name, dir_to_save)
+                        exported_files += 1
+                        print("\r", "{:.2f}".format(exported_files / files_qty * 100), " percent complete...", end='')
+                    app.closePSD()
+
             if del_files == 'Y':
                 os.remove(file_to_process)
 
@@ -557,9 +586,9 @@ if __name__ == '__main__':
             else:
                 last_option = [0, 0, 0]
 
-            menu += '1 - Generate Mugs\n' \
-                    '2 - Generate Bottles\n' \
-                    '3 - Generate Heart Mugs\n' \
+            menu += '1 - Mugs\n' \
+                    '2 - Bottles\n' \
+                    '3 - Heart Mugs\n' \
                     '4 - Necessaires\n' \
                     '5 - Cups\n' \
                     '6 - Aluminium Cups\n' \
@@ -590,6 +619,7 @@ if __name__ == '__main__':
                                '3 - Tree Mugs Together\n' \
                                '4 - Tree Mugs Apart\n' \
                                '5 - Mug and Coffee Percolator\n' \
+                               '6 - Kit Mugs\n' \
                                '-------------------------\n' \
                                'Your option (1): '
                     if option == 3:
