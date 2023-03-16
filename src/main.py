@@ -4,6 +4,7 @@ from configparser import ConfigParser
 from definitions import COLOR_OF_MUGS, COLOR_OF_BOTTLES, COLOR_OF_MUGS_HEART, COLOR_OF_NECESSAIRE_ZIPPER
 from cups import run_cups
 from aluminium_cups import run_aluminium_cups
+from magic_mugs import run_magic_mugs
 
 clear_console = lambda: os.system('cls' if os.name in ('nt', 'dos') else 'clear')
 DIR_FILES_TO_PROCESS = os.path.abspath("./../resources/origin_process")
@@ -592,6 +593,7 @@ if __name__ == '__main__':
                     '4 - Necessaires\n' \
                     '5 - Cups\n' \
                     '6 - Aluminium Cups\n' \
+                    '7 - Magic Mugs\n' \
                     '-------------------------\n' \
                     'Your option (0): '
 
@@ -760,6 +762,29 @@ if __name__ == '__main__':
 
                 app_obj = Photoshopy(app_visible)
                 run_aluminium_cups(app_obj, kind_of_cups, delete_origin_files)
+                if close_photoshop == 'yes':
+                    app_obj.closePhotoshop()
+            
+            elif option == 7:
+
+                # build kind of magic mugs menu
+                clear_console()
+                if run_last_option:
+                    kind_of_mugs = last_option[1]
+                else:
+                    menu = '-------------------------\n' \
+                           'What KIND OF MAGIC MUGS do you need? \n' \
+                           '1 - Black\n' \
+                           '2 - Black Glitter\n' \
+                           '-------------------------\n' \
+                           'Your option (1): '
+                    kind_of_mugs = input(menu) or '1'
+                    kind_of_mugs = kind_of_mugs.split(',')
+                    kind_of_mugs = [x.strip() for x in kind_of_mugs]
+                last_option[1] = kind_of_mugs
+
+                app_obj = Photoshopy(app_visible)
+                run_magic_mugs(app_obj, kind_of_mugs, delete_origin_files)
                 if close_photoshop == 'yes':
                     app_obj.closePhotoshop()
 
