@@ -1,4 +1,5 @@
 import os
+import pathlib
 from photoshopy import Photoshopy
 from configparser import ConfigParser
 from definitions import COLOR_OF_MUGS, COLOR_OF_BOTTLES, COLOR_OF_MUGS_HEART, COLOR_OF_NECESSAIRE_ZIPPER
@@ -14,7 +15,8 @@ DIR_PSD_BOTTLES = os.path.abspath("./../resources/psd/bottles/")
 DIR_PSD_NECESSAIRES = os.path.abspath("./../resources/psd/necessaires/")
 DIR_PSD_CUPS = os.path.abspath("./../resources/psd/cups/")
 CONFIG = ConfigParser()
-CONFIG.read(os.path.abspath("./../config.ini"))
+config_path = pathlib.Path(__file__).parent.absolute() / "../config.ini"
+CONFIG.read(config_path)
 
 
 def get_files_to_process():

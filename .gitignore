@@ -1,6 +1,7 @@
 /build/
 /dist/
 /.idea/
+/resources/origin_process/
 /resources/processed/
 /src/__pycache__
 main.spec
